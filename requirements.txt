@@ -1,1 +1,2 @@
 mysql.connector==2.2.9
+plotly.express==5.13.0
