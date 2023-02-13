@@ -1,8 +1,1 @@
-json
-numpy
-pandas
-plotly.express
-babel.numbers
-folium
-streamlit_folium 
-plotly.graph_objects
+mysql-connector-python==2.2.9
