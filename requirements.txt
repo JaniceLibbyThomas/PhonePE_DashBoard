@@ -1,0 +1,10 @@
+streamlit
+mysql.connector
+json
+numpy
+pandas
+plotly.express
+babel.numbers
+folium
+streamlit_folium 
+plotly.graph_objects
