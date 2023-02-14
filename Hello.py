@@ -134,7 +134,7 @@ if(user_ip1 =='ALL INDIA'):
       Frame1.rename(columns={"Name": "Type_of_Transaction"}, inplace=True)
       
       for i in range(0,len(list(Frame1['Amount']))):
-            t = (Frame1['Amount'][i]).split('.')
+            t = str(Frame1['Amount'][i]).split('.')
             Frame1['Amount'][i] = t[0]
       Frame1['Amount'] = Frame1['Amount'].astype(int)
 
