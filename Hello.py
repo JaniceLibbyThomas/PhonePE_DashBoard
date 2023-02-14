@@ -156,7 +156,7 @@ def uploading_into_Database():
     HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("&","and")
     HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("-"," ")
     
-    india_states = json.load(open("/Users/joelsanthoshraja/Downloads/states_india.geojson", "r"))
+    india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson", "r"))
     df = pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/HOVER_TRANS_AGG_INDIA.csv")
     state_li = []
     for i in range (0,len(df['State_name'])):
