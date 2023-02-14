@@ -431,9 +431,10 @@ if(user_ip1 =='ALL INDIA'):
                 Frame2['Log_Amount']= np.log2(Frame2['Amount'])
                 Map_ip = 'Log_Amount'
               
-            fig = px.choropleth_mapbox(Frame2, geojson=india_states, color=Map_ip,
+            fig = px.choropleth_mapbox(Frame2, geojson=india_states, color=Map_ip,color_continuous_scale="Viridis",
+                    range_color=(0, max_count),
                     locations="State Name", featureidkey="properties.st_nm",
-                    hover_data=["Amount"],
+                    hover_data=[Map_ip],
                     mapbox_style="carto-positron",
                     center={"lat": 24, "lon": 78},zoom = 3, opacity = 0.5
 
@@ -525,7 +526,8 @@ if(user_ip1 =='ALL INDIA'):
                 Frame2 = pd.read_sql(f"SELECT * FROM HOVER_USER_STATE where Year = '{Year}' and Quater = '{Quater}'",conn)
                 Frame2.rename(columns={'Statename':'State Name','NoofRegisteredUser':'No of Registered User','AppOpens':'No of App Open','id':'Map_id'}, inplace=True)
             
-                fig = px.choropleth_mapbox(Frame2, geojson=india_states, color=Map_ip,
+                fig = px.choropleth_mapbox(Frame2, geojson=india_states, color=Map_ip,color_continuous_scale="Viridis",
+                      range_color=(0, max_count),
                     locations="State Name", featureidkey="properties.st_nm",
                     hover_data=[Map_ip],
                     mapbox_style="carto-positron",
