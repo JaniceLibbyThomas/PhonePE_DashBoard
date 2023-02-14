@@ -11,6 +11,7 @@ import folium
 from streamlit_folium import folium_static
 import plotly.graph_objects as go
 from sqlite3 import connect
+import requests
 
 conn = connect("PhonePE.db")
 cursor = conn.cursor()
