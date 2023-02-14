@@ -121,9 +121,180 @@ TOP_TRANS_AGG_STATE= pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyT
 TOP_USER_STATE= pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/TOP_USER_STATE.csv")
 TOP_USER_DIST= pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/TOP_USER_DIST.csv")
 
-count =0
+fun_has_run = False
 #Fetching the Data from the SQL and saving it as DataFrame
+def uploading_into_Database():
+    
+    global fun_has_run
+    if fun_has_run:
+        return
 
+    fun_has_run = True
+    #changes made for table1
+    MAP_TRANS_AGG_INDIA['Name'] = MAP_TRANS_AGG_INDIA['Name'].str.replace("&","and")
+    MAP_TRANS_AGG_INDIA['Name'] = MAP_TRANS_AGG_INDIA['Name'].str.replace("-"," ")
+    MAP_TRANS_AGG_INDIA.to_sql("MAP_TRANS_AGG_INDIA",conn)
+    print('Table 1')
+    
+    #changes made for table 2
+    MAP_TRANS_AGG_STATE['Name'] = MAP_TRANS_AGG_STATE['Name'].str.replace("&","and")
+    MAP_TRANS_AGG_STATE['Name'] = MAP_TRANS_AGG_STATE['Name'].str.replace("-"," ")
+    MAP_TRANS_AGG_STATE['State'] = MAP_TRANS_AGG_STATE['State'].str.replace("&","and")
+    MAP_TRANS_AGG_STATE['State'] = MAP_TRANS_AGG_STATE['State'].str.replace("-"," ")
+    MAP_TRANS_AGG_STATE.to_sql("MAP_TRANS_AGG_STATE",conn)
+    print('Table 2')
+    
+    #table3:
+    MAP_USER_AGG_INDIA.to_sql('MAP_USER_AGG_INDIA',conn)
+    print('Table 3')
+    #changes made for table 4
+    MAP_USER_AGG_STATE['State'] = MAP_USER_AGG_STATE['State'].str.replace("&","and")
+    MAP_USER_AGG_STATE['State'] = MAP_USER_AGG_STATE['State'].str.replace("-"," ")
+    MAP_USER_AGG_STATE.to_sql('MAP_USER_AGG_STATE',conn)
+    print('Table 4')
+    #changes for table 5
+    HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("&","and")
+    HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("-"," ")
+    
+    india_states = json.load(open("/Users/joelsanthoshraja/Downloads/states_india.geojson", "r"))
+    df = pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/HOVER_TRANS_AGG_INDIA.csv")
+    state_li = []
+    for i in range (0,len(df['State_name'])):
+        state_li.append(str(df['State_name'][i].capitalize()))
+    df['State_name'] = state_li
+    
+    state_id_map = {}
+    for feature in india_states["features"]:
+        feature["id"] = feature["properties"]["state_code"]
+        state_id_map[feature["properties"]["st_nm"]] = feature["id"]
+        
+    n_state_id_map = {}
+    value_key = state_id_map.keys()
+    value_li = state_id_map.values()
+    for i in range(0,len(state_id_map)):
+        a = str(list(value_key)[i]).capitalize()
+        if(a == 'Andaman & nicobar island'):
+            n_state_id_map['Andaman & nicobar islands'] = list(value_li)[i]
+        elif(a == 'Dadara & nagar havelli'):
+            n_state_id_map['Dadra & nagar haveli & daman & diu'] = list(value_li)[i]
+        elif(a == 'Nct of delhi'):   
+            n_state_id_map['Delhi'] = list(value_li)[i]
+        elif(a == 'Arunanchal pradesh'):
+            n_state_id_map['Arunachal pradesh'] = list(value_li)[i]
+        else:
+            n_state_id_map[(list(value_key)[i]).capitalize()] = list(value_li)[i]
+
+    n_state_id_map['Ladakh'] = 1
+    df['id'] = df['State_name'].apply(lambda x: n_state_id_map[x])
+    df1 = df.groupby(['State_name','Year','Quater','id'])['Count','Amount'].mean()
+    hover_india = df1.reset_index()
+    
+    hover_india.to_sql('HOVER_TRANS_AGG_INDIA',conn)
+    print('Table 5')
+    
+    #table 6
+    HOVER_TRANS_AGG_STATE['District'] = HOVER_TRANS_AGG_STATE['District'].str.replace("district","")
+    
+    df = pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/HOVER_TRANS_AGG_STATE.csv")
+    state_li = []
+    for i in range (0,len(df['state'])):
+        state_li.append(str(df['state'][i].replace('-',' ').capitalize()))
+    df['state'] = state_li
+    
+    df['id'] = df['state'].apply(lambda x: n_state_id_map[x])
+    df1_1 = df.groupby(['state','Year','Quater','id'])['Count','Amount'].mean()
+    hover_state = df1_1.reset_index()
+    
+    hover_state.to_sql('HOVER_TRANS_AGG_STATE',conn)
+    print('Table 6')
+    
+    #table 7:
+    HOVER_USER_STATE['Statename'] = HOVER_USER_STATE['Statename'].str.replace("&","and")
+    HOVER_USER_STATE['Statename'] = HOVER_USER_STATE['Statename'].str.replace("-"," ")
+    
+    df = pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/HOVER_USER_STATE.csv")
+    state_li = []
+    for i in range (0,len(df['Statename'])):
+        state_li.append(str(df['Statename'][i].replace('-',' ').capitalize()))
+    df['Statename'] = state_li
+    
+    df['id'] = df['Statename'].apply(lambda x: n_state_id_map[x])
+    df1_2 = df.groupby(['Statename','Year','Quater','id'])['NoofRegisteredUser','AppOpens'].mean()
+    hover_u_state = df1_2.reset_index()
+    
+    
+    hover_u_state.to_sql('HOVER_USER_STATE',conn)
+    print('Table 7')
+    
+    #table 8:
+    HOVER_USER_DISTRICT['State Name'] = HOVER_USER_DISTRICT['State Name'].str.replace("&","and")
+    HOVER_USER_DISTRICT['State Name'] = HOVER_USER_DISTRICT['State Name'].str.replace("-"," ")
+    HOVER_USER_DISTRICT['District name'] = HOVER_USER_DISTRICT['District name'].str.replace("district","")
+    
+    HOVER_USER_DISTRICT.to_sql('HOVER_USER_DISTRICT',conn)
+    print('Table 8')
+    
+    #table 9:
+    TOP_TRANS_AGG_INDIA_with_Pincode = TOP_TRANS_AGG_INDIA[TOP_TRANS_AGG_INDIA['Pincode']!=0]
+    TOP_TRANS_AGG_INDIA_with_Pincode.to_sql('TOP_TRANS_AGG_INDIA_pincode',conn)
+    
+    print('Table 9')
+    
+    #table 10:
+    TOP_TRANS_AGG_INDIA_with_state= TOP_TRANS_AGG_INDIA[TOP_TRANS_AGG_INDIA['Pincode']==0]
+    TOP_TRANS_AGG_INDIA_with_state.to_sql('TOP_TRANS_AGG_INDIA_State',conn)
+    print('Table 10')
+    
+    #table 11,12:
+    TOP_TRANS_AGG_STATE['state'] = TOP_TRANS_AGG_STATE['state'].str.replace("-"," ")
+    TOP_TRANS_AGG_STATE['state'] = TOP_TRANS_AGG_STATE['state'].str.capitalize()
+    TOP_TRANS_AGG_STATE['Pincode']= TOP_TRANS_AGG_STATE['Pincode'].apply(str)
+    pin = TOP_TRANS_AGG_STATE['Pincode'].str.split(".", expand = True)
+    TOP_TRANS_AGG_STATE['Pincode1'] = pin[0]
+    TOP_TRANS_AGG_STATE.drop('Pincode', axis = 1,inplace=True)
+    TOP_TRANS_AGG_STATE.rename(columns={"Pincode1": "Pincode"}, inplace=True)
+    
+    TOP_TRANS_AGG_STATE_with_pincode =TOP_TRANS_AGG_STATE[TOP_TRANS_AGG_STATE['Pincode']!='0']
+    
+    TOP_TRANS_AGG_STATE['District'] = TOP_TRANS_AGG_STATE['District'].astype(str)
+    TOP_TRANS_AGG_STATE_with_dist = TOP_TRANS_AGG_STATE[TOP_TRANS_AGG_STATE['District']!='nan']
+    
+    TOP_TRANS_AGG_STATE_with_dist.to_sql('TOP_TRANS_AGG_dist1',conn)
+    print('Table 11')
+    
+    TOP_TRANS_AGG_STATE_with_pincode.to_sql('TOP_TRANS_AGG_INDIA_dist_pincode1',conn)
+    print('Table 12')
+    
+    #table 13,14:
+    TOP_USER_STATE_with_State = TOP_USER_STATE[TOP_USER_STATE['Pincode']==0]
+
+    TOP_USER_STATE_with_pincode = TOP_USER_STATE[TOP_USER_STATE['Pincode']!=0]
+    
+    TOP_USER_STATE_with_State.to_sql('TOP_User_AGG_state',conn)
+    print('Table 13')
+    
+    TOP_USER_STATE_with_pincode.to_sql('TOP_User_INDIA_pincode',conn)
+    print('Table 14')
+    
+   # table 15,16:
+    
+    TOP_USER_DIST['state'] = TOP_USER_DIST['state'].str.replace("-"," ")
+    TOP_USER_DIST['state'] = TOP_USER_DIST['state'].str.capitalize()
+    
+    TOP_USER_DIST['Pincode']= TOP_USER_DIST['Pincode'].apply(str)
+    
+    TOP_USER_DIST_with_pincode = TOP_USER_DIST[TOP_USER_DIST['Pincode']!='0']
+    TOP_USER_DIST['District'] = TOP_USER_DIST['District'].astype(str)
+    TOP_USER_DIST_with_dist = TOP_USER_DIST[TOP_USER_DIST['District']!='nan']
+
+    TOP_USER_DIST_with_dist.to_sql('TOP_User_AGG_dist1',conn)
+    print('Table 15')
+    
+    TOP_USER_DIST_with_pincode.to_sql('TOP_User_dist_pincode1',conn)
+    print('Table 16')
+                                       
+                                                                                    
+uploading_into_Database() 
 
 if(user_ip1 =='ALL INDIA'):
 
