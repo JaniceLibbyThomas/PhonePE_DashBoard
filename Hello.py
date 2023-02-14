@@ -152,7 +152,7 @@ def uploading_into_Database():
     HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("&","and")
     HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("-"," ")
     
-    india_states = json.load(open("/Users/joelsanthoshraja/Downloads/states_india.geojson", "r"))
+    india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson", "r"))
     df = pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/HOVER_TRANS_AGG_INDIA.csv")
     state_li = []
     for i in range (0,len(df['State_name'])):
@@ -398,7 +398,7 @@ if(user_ip1 =='ALL INDIA'):
                  Frame2['Amount'][i] = t[0]
             Frame2['Amount'] = Frame2['Amount'].astype(int)
 
-            india_states = json.load(open("/Users/joelsanthoshraja/Downloads/states_india.geojson", "r"))
+            india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson", "r"))
                 
 
             
@@ -496,7 +496,7 @@ if(user_ip1 =='ALL INDIA'):
                 'Select Anyone',
                 ('No of Registered User',"No of App Open"))
                 
-                india_states = json.load(open("/Users/joelsanthoshraja/Downloads/states_india.geojson", "r"))
+                india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson", "r"))
                 Frame2 = pd.read_sql(f"SELECT * FROM HOVER_USER_STATE where Year = '{Year}' and Quater = '{Quater}'",conn)
                 Frame2.rename(columns={'Statename':'State Name','NoofRegisteredUser':'No of Registered User','AppOpens':'No of App Open','id':'Map_id'}, inplace=True)
             
