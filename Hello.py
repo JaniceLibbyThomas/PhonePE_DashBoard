@@ -10,7 +10,10 @@ import babel.numbers
 import folium
 from streamlit_folium import folium_static
 import plotly.graph_objects as go
+from sqlite3 import connect
 
+conn = connect("PhonePE.db")
+cursor = conn.cursor()
 #inital side bar creation for filter
 
 st.sidebar.title('Filter')
