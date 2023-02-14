@@ -131,24 +131,23 @@ def uploading_into_Database():
     MAP_TRANS_AGG_INDIA['Name'] = MAP_TRANS_AGG_INDIA['Name'].str.replace("&","and")
     MAP_TRANS_AGG_INDIA['Name'] = MAP_TRANS_AGG_INDIA['Name'].str.replace("-"," ")
     MAP_TRANS_AGG_INDIA.to_sql("MAP_TRANS_AGG_INDIA",conn)
-    print('Table 1')
-    
+ 
     #changes made for table 2
     MAP_TRANS_AGG_STATE['Name'] = MAP_TRANS_AGG_STATE['Name'].str.replace("&","and")
     MAP_TRANS_AGG_STATE['Name'] = MAP_TRANS_AGG_STATE['Name'].str.replace("-"," ")
     MAP_TRANS_AGG_STATE['State'] = MAP_TRANS_AGG_STATE['State'].str.replace("&","and")
     MAP_TRANS_AGG_STATE['State'] = MAP_TRANS_AGG_STATE['State'].str.replace("-"," ")
     MAP_TRANS_AGG_STATE.to_sql("MAP_TRANS_AGG_STATE",conn)
-    print('Table 2')
+
     
     #table3:
     MAP_USER_AGG_INDIA.to_sql('MAP_USER_AGG_INDIA',conn)
-    print('Table 3')
+
     #changes made for table 4
     MAP_USER_AGG_STATE['State'] = MAP_USER_AGG_STATE['State'].str.replace("&","and")
     MAP_USER_AGG_STATE['State'] = MAP_USER_AGG_STATE['State'].str.replace("-"," ")
     MAP_USER_AGG_STATE.to_sql('MAP_USER_AGG_STATE',conn)
-    print('Table 4')
+
     #changes for table 5
     HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("&","and")
     HOVER_TRANS_AGG_INDIA['State_name'] = HOVER_TRANS_AGG_INDIA['State_name'].str.replace("-"," ")
@@ -187,7 +186,7 @@ def uploading_into_Database():
     hover_india = df1.reset_index()
     
     hover_india.to_sql('HOVER_TRANS_AGG_INDIA',conn)
-    print('Table 5')
+
     
     #table 6
     HOVER_TRANS_AGG_STATE['District'] = HOVER_TRANS_AGG_STATE['District'].str.replace("district","")
@@ -203,7 +202,7 @@ def uploading_into_Database():
     hover_state = df1_1.reset_index()
     
     hover_state.to_sql('HOVER_TRANS_AGG_STATE',conn)
-    print('Table 6')
+
     
     #table 7:
     HOVER_USER_STATE['Statename'] = HOVER_USER_STATE['Statename'].str.replace("&","and")
@@ -221,7 +220,7 @@ def uploading_into_Database():
     
     
     hover_u_state.to_sql('HOVER_USER_STATE',conn)
-    print('Table 7')
+  
     
     #table 8:
     HOVER_USER_DISTRICT['State Name'] = HOVER_USER_DISTRICT['State Name'].str.replace("&","and")
@@ -229,18 +228,18 @@ def uploading_into_Database():
     HOVER_USER_DISTRICT['District name'] = HOVER_USER_DISTRICT['District name'].str.replace("district","")
     
     HOVER_USER_DISTRICT.to_sql('HOVER_USER_DISTRICT',conn)
-    print('Table 8')
+  
     
     #table 9:
     TOP_TRANS_AGG_INDIA_with_Pincode = TOP_TRANS_AGG_INDIA[TOP_TRANS_AGG_INDIA['Pincode']!=0]
     TOP_TRANS_AGG_INDIA_with_Pincode.to_sql('TOP_TRANS_AGG_INDIA_pincode',conn)
     
-    print('Table 9')
+
     
     #table 10:
     TOP_TRANS_AGG_INDIA_with_state= TOP_TRANS_AGG_INDIA[TOP_TRANS_AGG_INDIA['Pincode']==0]
     TOP_TRANS_AGG_INDIA_with_state.to_sql('TOP_TRANS_AGG_INDIA_State',conn)
-    print('Table 10')
+
     
     #table 11,12:
     TOP_TRANS_AGG_STATE['state'] = TOP_TRANS_AGG_STATE['state'].str.replace("-"," ")
@@ -257,10 +256,10 @@ def uploading_into_Database():
     TOP_TRANS_AGG_STATE_with_dist = TOP_TRANS_AGG_STATE[TOP_TRANS_AGG_STATE['District']!='nan']
     
     TOP_TRANS_AGG_STATE_with_dist.to_sql('TOP_TRANS_AGG_dist1',conn)
-    print('Table 11')
+
     
     TOP_TRANS_AGG_STATE_with_pincode.to_sql('TOP_TRANS_AGG_INDIA_dist_pincode1',conn)
-    print('Table 12')
+
     
     #table 13,14:
     TOP_USER_STATE_with_State = TOP_USER_STATE[TOP_USER_STATE['Pincode']==0]
@@ -268,12 +267,12 @@ def uploading_into_Database():
     TOP_USER_STATE_with_pincode = TOP_USER_STATE[TOP_USER_STATE['Pincode']!=0]
     
     TOP_USER_STATE_with_State.to_sql('TOP_User_AGG_state',conn)
-    print('Table 13')
+
     
     TOP_USER_STATE_with_pincode.to_sql('TOP_User_INDIA_pincode',conn)
-    print('Table 14')
+
     
-    table 15,16:
+   # table 15,16:
     
     TOP_USER_DIST['state'] = TOP_USER_DIST['state'].str.replace("-"," ")
     TOP_USER_DIST['state'] = TOP_USER_DIST['state'].str.capitalize()
@@ -285,10 +284,10 @@ def uploading_into_Database():
     TOP_USER_DIST_with_dist = TOP_USER_DIST[TOP_USER_DIST['District']!='nan']
 
     TOP_USER_DIST_with_dist.to_sql('TOP_User_AGG_dist1',conn)
-    print('Table 15')
+   
     
     TOP_USER_DIST_with_pincode.to_sql('TOP_User_dist_pincode1',conn)
-    print('Table 16')
+
                                             
                                                                                     
 uploading_into_Database()
