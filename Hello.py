@@ -315,9 +315,7 @@ def uploading_into_Database():
     if(len(cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='TOP_User_dist_pincode1';").fetchall()) ==0):
    
         TOP_USER_DIST_with_pincode.to_sql('TOP_User_dist_pincode1',conn)
-  
-                                       
-                                                                                    
+                                                                                      
 uploading_into_Database() 
 
 if(user_ip1 =='ALL INDIA'):
@@ -391,7 +389,7 @@ if(user_ip1 =='ALL INDIA'):
             Frame3.sort_values(by="Count",ascending=False)
             st.line_chart(Frame3, x = 'State_name',y ='Count')
           
-            file_no +=1
+            
             
           elif(radio =='Pincode'):
             Frame2 = pd.read_sql(f"SELECT * FROM TOP_TRANS_AGG_INDIA_dist_pincode1 where Year = '{Year}' and Quater = '{Quater}'",conn)
@@ -401,7 +399,7 @@ if(user_ip1 =='ALL INDIA'):
             val = (Frame3.iloc[0:10].reset_index().drop(['index'],axis=1))
             val['Pincode'] = val['Pincode'].astype(str)
             st.line_chart(val,x ='Pincode',y ='Count')
-            file_no +=1
+          
           else:
             Frame2 = pd.read_sql(f"SELECT * FROM TOP_TRANS_AGG_dist1 where Year = '{Year}' and Quater = '{Quater}'",conn)
             Frame2.rename(columns={"District": "District Name"}, inplace=True)
@@ -411,7 +409,7 @@ if(user_ip1 =='ALL INDIA'):
             val = (Frame3.iloc[0:10].reset_index().drop(['index'],axis=1))
             
             st.line_chart(val,x ='District Name',y ='Count')
-            file_no +=1
+           
 
       with tab3:
             Map_ip = st.selectbox(
