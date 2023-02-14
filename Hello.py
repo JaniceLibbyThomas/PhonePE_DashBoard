@@ -124,9 +124,9 @@ TOP_USER_DIST= pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/
 count =0
 #Fetching the Data from the SQL and saving it as DataFrame
 
-def uploading_into_Database(count):
+def uploading_into_Database():
     
- if(count==0):
+ 
     #changes made for table1
     MAP_TRANS_AGG_INDIA['Name'] = MAP_TRANS_AGG_INDIA['Name'].str.replace("&","and")
     MAP_TRANS_AGG_INDIA['Name'] = MAP_TRANS_AGG_INDIA['Name'].str.replace("-"," ")
@@ -289,9 +289,10 @@ def uploading_into_Database(count):
     TOP_USER_DIST_with_pincode.to_sql('TOP_User_dist_pincode1',conn)
     count=1
                                             
-                                                                                    
-uploading_into_Database(count)
-
+if(count == 0):                                                                                
+    uploading_into_Database()
+else:
+    pass
 
 if(user_ip1 =='ALL INDIA'):
 
