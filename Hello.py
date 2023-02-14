@@ -105,7 +105,9 @@ else:
 
 st.title('PHONEPE DASHBOARD')
 
-india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson, "r"))
+url = "https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/main/states_india1.json"
+resp = requests.get(url)
+india_states = json.loads(resp.text)
 #getting the data from the GITHUB to load
 MAP_TRANS_AGG_INDIA = pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/MAP_TRANS_AGG_INDIA.csv")
 MAP_TRANS_AGG_STATE= pd.read_csv("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/MAP_TRANS_AGG_STATE.csv")
