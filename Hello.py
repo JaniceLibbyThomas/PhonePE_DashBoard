@@ -419,7 +419,7 @@ if(user_ip1 =='ALL INDIA'):
             Frame2.rename(columns={"State_name": "State Name",'id':'Map_id'}, inplace=True)    
 
             for i in range(0,len(list(Frame2['Amount']))):
-                 t = (Frame2['Amount'][i]).split('.')
+                 t = str(Frame2['Amount'][i]).split('.')
                  Frame2['Amount'][i] = t[0]
             Frame2['Amount'] = Frame2['Amount'].astype(int)
 
