@@ -453,7 +453,8 @@ if(user_ip1 =='ALL INDIA'):
               st.subheader(f'Top 10 Amount of Registered User Based on {radio}')
               if(radio == 'State'):
                 Frame2 = pd.read_sql(f"SELECT * FROM TOP_User_AGG_state where Year = '{Year}' and Quater = '{Quater}'",conn)
-                Frame2.rename(columns={"State name": "State Name",'No of Registered User':'No of reg user'}, inplace=True)temp = Frame2.groupby(['State Name'])['No of reg user'].sum()              
+                Frame2.rename(columns={"State name": "State Name",'No of Registered User':'No of reg user'}, inplace=True)
+                temp = Frame2.groupby(['State Name'])['No of reg user'].sum()              
                 Frame3 = temp.reset_index()
                 Frame3 = Frame3.sort_values(by="No of reg user",ascending=False)
                 st.line_chart(Frame3, x = 'State Name',y ='No of reg user')
