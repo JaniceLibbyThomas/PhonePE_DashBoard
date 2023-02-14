@@ -417,7 +417,7 @@ if(user_ip1 =='ALL INDIA'):
                 ("Count",'Amount'))
             Frame2 = pd.read_sql(f"SELECT * FROM HOVER_TRANS_AGG_INDIA where Year = '{Year}' and Quater = '{Quater}'",conn)
             Frame2.rename(columns={"State_name": "State Name",'id':'Map_id'}, inplace=True)    
-
+    
             for i in range(0,len(list(Frame2['Amount']))):
                  t = str(Frame2['Amount'][i]).split('.')
                  Frame2['Amount'][i] = t[0]
@@ -425,7 +425,7 @@ if(user_ip1 =='ALL INDIA'):
 
 #             india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson", "r"))
                 
-
+            max_count = Frame2[Map_ip].max()
             
             if(Map_ip =='Amount'):
                 Frame2['Log_Amount']= np.log2(Frame2['Amount'])
@@ -525,7 +525,7 @@ if(user_ip1 =='ALL INDIA'):
 #                 india_states = json.load(open("https://raw.githubusercontent.com/JaniceLibbyThomas/PhonePe/Master/states_india.geojson", "r"))
                 Frame2 = pd.read_sql(f"SELECT * FROM HOVER_USER_STATE where Year = '{Year}' and Quater = '{Quater}'",conn)
                 Frame2.rename(columns={'Statename':'State Name','NoofRegisteredUser':'No of Registered User','AppOpens':'No of App Open','id':'Map_id'}, inplace=True)
-            
+                max_count = Frame2[Map_ip].max()
                 fig = px.choropleth_mapbox(Frame2, geojson=india_states, color=Map_ip,color_continuous_scale="Viridis",
                       range_color=(0, max_count),
                     locations="State Name", featureidkey="properties.st_nm",
