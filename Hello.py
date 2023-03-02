@@ -539,7 +539,7 @@ if(user_ip1 =='ALL INDIA'):
                 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
                 st.plotly_chart(fig)
     
- else:   
+else:   
     
     if(trans_r_user =='TRANSACTIONS'):
       tab1, tab2, tab3 = st.tabs(["TRANSACTION DETAILS", "TOP 10", "MAP"])
