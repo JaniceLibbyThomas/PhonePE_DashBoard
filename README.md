@@ -78,7 +78,7 @@ Pre- req:
   
 - _**How to run streamlit**_
 
-  - Step1: Save the Hello.py and states_india.geojson file in a local file path.
+  - Step1: Save the Streamlit.py and states_india.geojson file in a local file path.
   - Step2: Open Terminal in your system
   - Step3: Type streamlit run **your_path_where_you_saved__Hello.py
   
