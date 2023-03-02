@@ -83,6 +83,13 @@ Pre- req:
   - Step3: Type streamlit run **your_path_where_you_saved__Streamlit.py
   
   it will launch the local host.
+  
+EXTRA:
+
+Hosted the streamlit app: https://janicelibbythomas-phonepe-dashboard-hello-uis7m5.streamlit.app/
+Map section: under progress...
+
+Code reference: Hello.py
 
 ## License
 
