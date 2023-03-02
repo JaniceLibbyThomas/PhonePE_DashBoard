@@ -80,7 +80,7 @@ Pre- req:
 
   - Step1: Save the Streamlit.py and states_india.geojson file in a local file path.
   - Step2: Open Terminal in your system
-  - Step3: Type streamlit run **your_path_where_you_saved__Hello.py
+  - Step3: Type streamlit run **your_path_where_you_saved__Streamlit.py
   
   it will launch the local host.
 
